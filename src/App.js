@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from "react";
+import "./App.css";
+import {BrowserRouter as Router, Switch, Route, Link} from "react-router-dom";
 
-function App() {
+// pages
+import Home from "./Pages/Home";
+import About from "./Pages/About";
+// context
+import {UserContext} from "./Context/UserContext";
+
+const App = () => {
+  const [user, setUser] = useState(null); //change initial state of usecontext (initially no user)
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      {/* nav bar */}
+      <div>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/about">About</Link>
+          </li>
+        </ul>
+      </div>
+      {/* paths */}
+      <Switch>
+        {/* provide context, setvalue is a func we can use to change value */}
+        <UserContext.Provider value={{user, setUser}}>
+          <Route path="/" exact component={Home} />
+          <Route path="/about" component={About} />
+        </UserContext.Provider>
+      </Switch>
+    </Router>
   );
-}
+};
 
 export default App;
